@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link href="/stylesheets/roboto_fonts.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/materialize.min.css" media="screen,projection">
+    <link rel="stylesheet" href="/stylesheets/mstepper.min.css">
+  </head>
+  <body>
+    <h1>Website Pendaftaran Nikah</h1>
+    <!-- Biodata - start -->
+    <ul class="stepper linear">
+      <li class="step active">
+        <div class="step-title waves-effect">Data Pribadi</div>
+        <div class="step-content">
+          <!-- Your step content goes here (like inputs or so) -->
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="first_name" name="first_name" type="text" class="validate">
+              <label for="first_name">Nama Pertama</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="last_name" name="last_name" type="text" class="validate">
+              <label for="last_name">Nama Akhir</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <select name="jenis_kelamin">
+                <option value="" disabled selected>Pilih jenis kelamin</option>
+                <option value="laki-laki">Laki-laki</option>
+                <option value="perempuan">Perempuan</option>
+              </select>
+              <label>Pilih Jenis Kelamin</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="ttl" name="ttl" type="text" class="datepicker">
+              <label for="ttl">Tempat dan Tanggal Lahir</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="warga_negara" name="warga_negara" type="text" class="validate">
+              <label for="warga_negara">Warga Negara</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <select name="agama">
+                <option value="" disabled selected>Pilih Agama</option>
+                <option value="islam">Islam</option>
+                <option value="kristen">Kristen</option>
+                <option value="Katholik">Katholik</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Buddha">Buddha</option>
+                <option value="Konghucu">Konghucu</option>
+              </select>
+              <label>Pilih Agama</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="pekerjaan" name="pekerjaan" type="text" class="validate">
+              <label for="pekerjaan">Pekerjaan</label>
+            </div>
+          </div>
+          <div class="step-actions">
+            <!-- Here goes your actions buttons -->
+            <button class="waves-effect waves-dark btn next-step" data-feedback="pushData">Selanjutnya</button>
+          </div>
+        </div>
+      </li>
+      <!-- Biodata - akhir -->
+      <!-- Data nikah - start -->
+      <li class="step">
+        <div class="step-title waves-effect">Data Nikah</div>
+        <div class="step-content">
+          <!-- Your step content goes here (like inputs or so) -->
+          <div class="row">
+            <div class="input-field col s12">
+              <select name="status_kawin">
+                <option value="" disabled selected>Pilih Status Kawin</option>
+              </select>
+              <label>Pilih Status Kawin</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="calon" name="calon" type="text" class="validate">
+              <label for="calon">Nama Calon</label>
+            </div>
+          </div>
+          <div class="step-actions">
+            <!-- Here goes your actions buttons -->
+            <button class="waves-effect waves-dark btn next-step" data-feedback="pushData">Selanjutnya</button>
+            <button class="waves-effect waves-dark btn-flat previous-step">Kembali</button>
+          </div>
+        </div>
+      </li>
+      <!-- Data nikah - akhir -->
+      <!-- Submit - start -->
+      <li class="step">
+          <div class="step-title waves-effect">Selesai</div>
+          <div class="step-content">
+            <!-- Your step content goes here (like inputs or so) -->
+            Jika anda yakin ingin mendaftarkan silahkan menekan tombol "Submit Data".<br/>
+            Pastikan data anda valid dan benar. Apabila masih terdapat kesalahan maka tekan tombol "Kembali".
+            <div class="step-actions">
+              <!-- Here goes your actions buttons -->
+              <button class="waves-effect waves-dark btn next-step" data-feedback="submitData">Submit Data</button>
+              <button class="waves-effect waves-dark btn-flat previous-step">Kembali</button>
+            </div>
+          </div>
+        </li>
+        <!-- Submit - akhir -->
+    </ul>
+    <script src="/javascripts/jquery-3.3.1.min.js"></script>
+    <script src="/javascripts/jquery-ui.min.js"></script>
+    <script src="/javascripts/moment.min.js"></script>
+    <script src="/javascripts/materialize.min.js"></script>
+    <script src="/javascripts/mstepper.min.js"></script>
+    <script>
+      var data = {};
+      function pushData(destroyFeedback) {
+        // Call destroyFeedback() function when you're done
+        // The true parameter will proceed to the next step besides destroying the preloader
+        setTimeout(() => {
+          destroyFeedback(true);
+        }, 3000);
+      }
+
+      function submitData(destroyFeedback) {
+        console.log(data)
+        $.ajax({
+          type: 'POST',
+          url: '/register',
+          data: data,
+          dataType: "json",
+          success: function(result) {
+            alert("Data Registrasi Pernikahan terkirim, terima kasih telah registrasi.");
+            location.reload();
+          },
+          error: function(error) {
+            console.error(error);
+            alert("Data gagal dikirim ke server, mohon tunggu beberapa saat lagi.")
+          }
+        })
+        destroyFeedback(true);
+      }
+
+      function pushValidateData(stepperForm, activeStepContent) {
+        var temp = $(stepperForm).serializeArray().reduce(function(obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+        Object.assign(data, temp);
+        var $newOpt = $()
+        if (typeof data.jenis_kelamin != "undefined" && data.jenis_kelamin == "laki-laki") {
+          $newOpt = $newOpt.add($("<option>").attr("value","jejaka").text("Jejaka"));
+          $newOpt = $newOpt.add($("<option>").attr("value","duda").text("Duda"));
+          $newOpt = $newOpt.add($("<option>").attr("value","beristri").text("Beristri"));
+        } else if (typeof data.jenis_kelamin != "undefined" && data.jenis_kelamin == "perempuan") {
+          $newOpt = $newOpt.add($("<option>").attr("value","perawan").text("Perawan"));
+          $newOpt = $newOpt.add($("<option>").attr("value","janda").text("Janda"));
+          $newOpt = $newOpt.add($("<option>").attr("value","bersuami").text("Bersuami"));
+        } else {
+          return false;
+        }
+
+        // kasih option pada select status_kawin
+        $("select[name=status_kawin]").html($newOpt);
+        // re-init select materialize
+        var elems = document.querySelectorAll('select');
+        var options = document.querySelectorAll('option');
+        var instances = M.FormSelect.init(elems, options);
+
+        return true;
+      }
+
+      $(document).ready(function() {       
+        $('.modal').modal();
+        //this are my init
+        $('.datepicker').datepicker({
+          format: "dd/mm/yyyy",
+          yearRange: 150
+        });
+      });
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var options = document.querySelectorAll('option');
+        var instances = M.FormSelect.init(elems, options);
+      });
+
+      var stepper = document.querySelector('.stepper');
+      var stepperInstace = new MStepper(stepper, {
+        // Default active step.
+        firstActive: 0,
+        // Allow navigation by clicking on the next and previous steps on linear steppers.
+        linearStepsNavigation: true,
+        // Auto focus on first input of each step.
+        autoFocusInput: false,
+        // Set if a loading screen will appear while feedbacks functions are running.
+        showFeedbackPreloader: true,
+        // Auto generation of a form around the stepper.
+        autoFormCreation: true,
+        // Function to be called everytime a nextstep occurs. It receives 2 arguments, in this sequece: stepperForm, activeStepContent.
+        validationFunction: pushValidateData,
+        // Preloader used when step is waiting for feedback function. If not defined, Materializecss spinner-blue-only will be used.
+        feedbackPreloader: `<div class="preloader-wrapper big active">
+          <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>`
+      })
+    </script>
+    <small>Coded by : Afif Abdillah Jusuf</small>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "local": {
+    "database": {
+      "host": "localhost",
+      "name": "d3943847ffa2bba39f99d4c78b79024d6_development",
+      "user": "uc5bc859a2b9b173fba8e4083d562cac5",
+      "password": "a034c3df8d2361232897f9bad2cd1ccb9f586a16f4498e54476a61e9af8d84a2"
+    }
+  },
+  "development": {
+    "database": {
+      "host": "localhost",
+      "name": "d3943847ffa2bba39f99d4c78b79024d6_development",
+      "user": "uc5bc859a2b9b173fba8e4083d562cac5",
+      "password": "a034c3df8d2361232897f9bad2cd1ccb9f586a16f4498e54476a61e9af8d84a2"
+    }
+  },
+  "production": {
+    "database": {
+      "host": "localhost",
+      "name": "d3943847ffa2bba39f99d4c78b79024d6_development",
+      "user": "uc5bc859a2b9b173fba8e4083d562cac5",
+      "password": "a034c3df8d2361232897f9bad2cd1ccb9f586a16f4498e54476a61e9af8d84a2"
+    }
+  }
+}
